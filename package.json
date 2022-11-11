@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "server": "nodemon api/server.js",
-    "social": "npm start --prefix social",
-    "start": "concurrently \"npm run server\" \"npm run social\""
+    "client": "npm start --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.5",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.19"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-
+ 
 // create student schema
 const userSchema = mongoose.Schema({
 
@@ -16,11 +16,13 @@ const userSchema = mongoose.Schema({
     },
     username : {
         type : String,
-        trim : true
+        trim : true,
+        default : ''
     },
     secondary_name : {
         type : String,
-        trim : true
+        trim : true,
+        default : ''
     },
     email : {
         type : String,
@@ -30,7 +32,7 @@ const userSchema = mongoose.Schema({
     mobile : {
         type : String,
         trim : true,
-        unique : true
+
     },
     password : {
         type : String,
@@ -43,6 +45,15 @@ const userSchema = mongoose.Schema({
     },
     birth_date : {
         type : String,
+        required : true 
+    },
+    birth_month : {
+        type : String,
+        required : true 
+    },
+    birth_year : {
+        type : String,
+        required : true 
     },
     profile_photo : {
         type : String,
@@ -85,11 +96,11 @@ const userSchema = mongoose.Schema({
         type : Array,
         default : []
     },
-    flowing : {
+    following : {
         type : Array,
         default : []
     },
-    flowers : {
+    followers : {
         type : Array,
         default : []
     },
@@ -110,8 +121,7 @@ const userSchema = mongoose.Schema({
         default : false
     },
     access_token : {
-        type : Boolean,
-        default : false
+        type : String
     },
     isAdmin : {
         type : Boolean,
