@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
+    <>
       <div className="fb-footer">
         <div className="footer-wraper">
           <div className="footer-top">
@@ -143,7 +143,7 @@ const Footer = () => {
           <p>Meta © 2022</p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

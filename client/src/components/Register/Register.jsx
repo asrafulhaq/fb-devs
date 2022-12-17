@@ -38,15 +38,18 @@ const Register = ({ setRegister }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  // current date info
+  const date = new Date();
+
   // form fields
   const [input, setInput] = useState({
     fname: "",
     sname: "",
     emailOrMobile: "",
     password: "",
-    day: "",
-    month: "",
-    year: "",
+    day: date.getDate(),
+    month: month[date.getMonth()],
+    year: date.getFullYear(),
     gender: "",
   });
 
@@ -110,7 +113,7 @@ const Register = ({ setRegister }) => {
           {
             first_name: input.fname,
             sur_name: input.sname,
-            email: input.emailOrMobile,
+            auth: input.emailOrMobile,
             password: input.password,
             gender: input.gender,
             birth_date: input.day,
@@ -192,14 +195,22 @@ const Register = ({ setRegister }) => {
                 <div className="reg-form-select">
                   <select name="day" id="" onChange={handleInputChange}>
                     {day.map((item, index) => (
-                      <option value={item} key={index}>
+                      <option
+                        selected={item === input.day ? true : false}
+                        value={item}
+                        key={index}
+                      >
                         {item}
                       </option>
                     ))}
                   </select>
                   <select name="month" id="" onChange={handleInputChange}>
                     {month.map((item, index) => (
-                      <option value={item} key={index}>
+                      <option
+                        selected={item === input.month ? true : false}
+                        value={item}
+                        key={index}
+                      >
                         {item}
                       </option>
                     ))}

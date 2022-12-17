@@ -1,15 +1,21 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Footer from "../../components/Footer/Footer";
-import FacebookLogo from "../../_assets/icons/facebook.svg";
 import Cookie from "js-cookie";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { activationByOTP, resendLink } from "../../redux/auth/authAction";
+import {
+  activationByOTP,
+  checkPasswordResetCode,
+  resendLink,
+} from "../../redux/auth/authAction";
 import createToast from "../../utility/toast";
+import ResetHeader from "../../components/ResetHeader/ResetHeader";
 
 const Activation = () => {
+  const { type } = useParams();
+
   // dispatch
   const dispatch = useDispatch();
   // code state
@@ -24,7 +30,7 @@ const Activation = () => {
   const handleCodeContinue = (e) => {
     e.preventDefault();
     if (!code) {
-      createToast("Set a OTP Code first", "warn");
+      createToast("OTP code is required", "warn");
     } else {
       dispatch(
         activationByOTP(
@@ -56,6 +62,25 @@ const Activation = () => {
 
     dispatch(resendLink(activationEmail, navigate));
   };
+
+  // handle password reset
+  const handlePasswordReset = (e) => {
+    e.preventDefault();
+
+    if (!code) {
+      createToast("OTP code is required", "warn");
+    } else {
+      dispatch(
+        checkPasswordResetCode(
+          {
+            code: code,
+            auth: Cookie.get("otp"),
+          },
+          navigate
+        )
+      );
+    }
+  };
   useEffect(() => {
     if (!activationEmail) {
       navigate("/login");
@@ -64,19 +89,7 @@ const Activation = () => {
 
   return (
     <>
-      <div className="reset-header">
-        <div className="reset-header-wraper">
-          <div className="reset-logo">
-            <img src={FacebookLogo} alt="" />
-          </div>
-          <div className="login-part">
-            <input type="text" placeholder="Email or mobile number" />
-            <input type="text" placeholder="Password" />
-            <button>Log In</button>
-            <a href="#">Forgotten account?</a>
-          </div>
-        </div>
-      </div>
+      <ResetHeader />
       <div className="reset-area">
         <div className="reset-wraper">
           <div className="reset-box">
@@ -104,7 +117,13 @@ const Activation = () => {
                 <a onClick={handleActivationCancel} className="cancel" href="#">
                   Cancel
                 </a>
-                <a onClick={handleCodeContinue} className="continue" href="#">
+                <a
+                  onClick={
+                    type == "account" ? handleCodeContinue : handlePasswordReset
+                  }
+                  className="continue"
+                  href="#"
+                >
                   Continue
                 </a>
               </div>
@@ -112,7 +131,6 @@ const Activation = () => {
           </div>
         </div>
       </div>
-
       <Footer />
     </>
   );

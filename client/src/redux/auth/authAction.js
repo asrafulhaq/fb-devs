@@ -2,7 +2,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import createToast from "../../utility/toast";
+import { LOADER_START } from "../top-loader/loaderTypes";
 import {
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -35,7 +39,7 @@ export const userRegister =
           });
           e.target.reset();
           setRegister(false);
-          navigate("/activation");
+          navigate("/activation/account");
         })
         .catch((error) => {
           createToast(error.response.data.message);
@@ -81,16 +85,90 @@ export const resendLink = (email, navigate) => async (dispatch) => {
   try {
     await axios
       .post("/api/v1/user/resend-activate", {
-        email: email,
+        auth: email,
       })
       .then((res) => {
         createToast(res.data.message, "success");
-        navigate("/activation");
+        navigate("/activation/account");
       })
       .catch((error) => {
         createToast(error.response.data.message);
       });
   } catch (error) {
     createToast(error.response.data.message);
+  }
+};
+
+// user account activation by OTP
+export const checkPasswordResetCode = (data, navigate) => async (dispatch) => {
+  try {
+    await axios
+      .post("/api/v1/user/check-password-reset-otp", {
+        auth: data.auth,
+        code: data.code,
+      })
+      .then((res) => {
+        createToast(res.data.message, "success");
+        navigate("/change-password");
+      })
+      .catch((error) => {
+        createToast(error.response.data.message);
+      });
+  } catch (error) {
+    createToast(error.response.data.message);
+  }
+};
+
+// user account activation by OTP
+export const changePassword = (data, navigate) => async (dispatch) => {
+  try {
+    await axios
+      .post("/api/v1/user/user-password-reset", {
+        id: data.id,
+        code: data.code,
+        password: data.password,
+      })
+      .then((res) => {
+        createToast(res.data.message, "success");
+        navigate("/login");
+      })
+      .catch((error) => {
+        createToast(error.response.data.message);
+      });
+  } catch (error) {
+    createToast(error.response.data.message);
+  }
+};
+
+// user login
+export const userLogin = (data, navigate) => async (dispatch) => {
+  try {
+    dispatch({
+      type: LOGIN_REQUEST,
+    });
+    await axios
+      .post("/api/v1/user/login", {
+        auth: data.auth,
+        password: data.password,
+      })
+      .then((res) => {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data.user,
+        });
+        dispatch({
+          type: LOADER_START,
+        });
+        createToast("Login successful", "success");
+        navigate("/");
+      })
+      .catch((error) => {
+        dispatch({
+          type: LOGIN_FAILED,
+        });
+        createToast(error.response.data.message);
+      });
+  } catch (error) {
+    console.log(error.message);
   }
 };

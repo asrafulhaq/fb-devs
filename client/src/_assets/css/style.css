@@ -105,7 +105,7 @@
 }
 
 body {
-  font-family: "Segoe UI Light";
+  font-family: "Segoe UI Light" !important;
 }
 
 html {
@@ -164,6 +164,12 @@ Components
   height: 1px;
   background-color: var(--bg-tertiary);
   margin: 10px 0px;
+}
+
+.w-100 {
+  width: 100% !important;
+  font-size: 16px !important;
+  font-family: inherit;
 }
 
 .blur-box {
@@ -1095,11 +1101,10 @@ Components
   width: 150px;
   cursor: pointer;
 }
-
 .reset-header-wraper .login-part {
   display: flex;
-  align-items: center;
   gap: 10px;
+  align-items: center;
 }
 .reset-header-wraper .login-part input {
   height: 40px;
@@ -1182,7 +1187,7 @@ Components
 }
 
 .reset-footer {
-  padding: 10px 15px;
+  padding: 15px 15px;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
@@ -1203,7 +1208,7 @@ Components
 }
 
 .reset-btns a {
-  padding: 6px 20px;
+  padding: 8px 20px;
   border-radius: 6px;
   display: inline-block;
   font-size: 14px;
@@ -1225,4 +1230,176 @@ Components
   font-weight: bold;
 }
 
+.find-user-account {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.find-user-account img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+.find-user-account span {
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.find-user-account p {
+  width: 60%;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
 /* 1px solid rgba(0, 0, 0, .1) */
+.story-box {
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 10%), 0 0px 0px rgb(0 0 0 / 10%);
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+.story-box .story-box-header {
+  padding: 5px 15px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.story-box .story-box-header ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.story-box .story-box-header ul li {
+  width: 49%;
+  text-align: center;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.story-box .story-box-header ul li a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-box .story-box-header ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.story-box-body {
+  padding: 15px;
+}
+
+.story-area {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.story-area .story-item {
+  width: 19%;
+  height: 200px;
+  background-position: center center;
+  background-size: auto 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all ease-in-out 0.4s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 10%), 0 0px 0px rgb(0 0 0 / 10%);
+}
+.story-area .story-item:hover {
+  background-size: auto 110%;
+}
+
+.story-area .story-item .story-user {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.story-area .story-item span {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  bottom: 20px;
+  display: block;
+  width: 80%;
+  margin: auto;
+  font-size: 14px;
+  color: #fff;
+}
+
+.story-area .story-item .story-user img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 3px solid var(--blue-color);
+}
+
+.story-area .story-item:before {
+  content: "";
+  display: block;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.story-area .story-item.auth-user-story:before {
+  content: "";
+  display: block;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.auth-user-story .auth-story-create {
+  background-color: #fff;
+  width: 100%;
+  height: 50px;
+  text-align: center;
+  z-index: 999;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-user-story .auth-story-create p {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.auth-user-story .auth-story-create button {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: -18px;
+  background-color: #fff;
+  width: 30px;
+  height: 30px;
+  border: 5px solid #fff;
+  margin: auto;
+  box-sizing: content-box;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.auth-user-story .auth-story-create button svg {
+  background-color: var(--blue-color);
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  border-radius: 50%;
+  padding: 5px;
+  color: #fff;
+}

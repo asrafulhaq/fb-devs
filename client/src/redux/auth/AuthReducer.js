@@ -1,4 +1,6 @@
 import {
+  LOGIN_FAILED,
+  LOGIN_SUCCESS,
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -28,6 +30,19 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         ...state,
         loading: false,
         message: payload,
+      };
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        user: {},
+        loginState: false,
+      };
+
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        user: payload,
+        loginState: true,
       };
 
     default:

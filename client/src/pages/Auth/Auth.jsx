@@ -3,7 +3,6 @@ import { useState } from "react";
 import Footer from "../../components/Footer/Footer";
 import Login from "../../components/Login/Login";
 import Register from "../../components/Register/Register";
-import "../../_assets/css/style.css";
 import FacebookLogo from "../../_assets/icons/facebook.svg";
 
 const Auth = () => {
@@ -27,8 +26,8 @@ const Auth = () => {
           </div>
         </div>
       </div>
-      <Footer />
       {register && <Register setRegister={setRegister} />}
+      <Footer />
     </>
   );
 };
