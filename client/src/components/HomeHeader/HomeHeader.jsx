@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import favicon from "../../_assets/icons/favicon.ico";
 import { useDispatch, useSelector } from "react-redux";
 import Avatar from "../Avatar/Avatar";
+import { userLogout } from "../../redux/auth/authAction";
+import { Link, useNavigate } from "react-router-dom";
+import usePopupClose from "../../hooks/usePopupClose";
+
 const HomeHeader = () => {
   const [userMenu, setUsermenu] = useState(false);
   const { user } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const dropMenu = useRef(null);
+
+  // user logout system
+  const handleUserLogout = (e) => {
+    e.preventDefault();
+    dispatch(userLogout(navigate));
+  };
+
+  usePopupClose(dropMenu, setUsermenu);
+
+  // handle profile page
+  const handleProfilePage = () => {
+    navigate("/profile");
+  };
 
   return (
     <>
@@ -49,7 +70,7 @@ const HomeHeader = () => {
         <div className="fb-home-menu">
           <ul>
             <li className="active">
-              <a href="#">
+              <Link to="/">
                 <svg
                   viewBox="0 0 28 28"
                   className="x1lliihq x1k90msu x2h7rmj x1qfuztq x5e5rjt"
@@ -59,7 +80,7 @@ const HomeHeader = () => {
                 >
                   <path d="M25.825 12.29C25.824 12.289 25.823 12.288 25.821 12.286L15.027 2.937C14.752 2.675 14.392 2.527 13.989 2.521 13.608 2.527 13.248 2.675 13.001 2.912L2.175 12.29C1.756 12.658 1.629 13.245 1.868 13.759 2.079 14.215 2.567 14.479 3.069 14.479L5 14.479 5 23.729C5 24.695 5.784 25.479 6.75 25.479L11 25.479C11.552 25.479 12 25.031 12 24.479L12 18.309C12 18.126 12.148 17.979 12.33 17.979L15.67 17.979C15.852 17.979 16 18.126 16 18.309L16 24.479C16 25.031 16.448 25.479 17 25.479L21.25 25.479C22.217 25.479 23 24.695 23 23.729L23 14.479 24.931 14.479C25.433 14.479 25.921 14.215 26.132 13.759 26.371 13.245 26.244 12.658 25.825 12.29" />
                 </svg>
-              </a>
+              </Link>
             </li>
             <li>
               <a href="#">
@@ -167,10 +188,13 @@ const HomeHeader = () => {
           </div>
           <div onClick={() => setUsermenu(!userMenu)} className="fb-user-item">
             {userMenu && (
-              <div className="user-menu-dropdown">
+              <div className="user-menu-dropdown" ref={dropMenu}>
                 <div className="user-menu-box">
                   <div className="user-data-box">
-                    <div className="user-data-box-item">
+                    <div
+                      onClick={handleProfilePage}
+                      className="user-data-box-item"
+                    >
                       <Avatar />
                       <span>{`${user.first_name} ${user.sur_name}`}</span>
                     </div>
@@ -213,7 +237,7 @@ const HomeHeader = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#">
+                      <a onClick={handleUserLogout} href="#">
                         <div className="user-menu-icon"></div>
                         <div className="user-menu-item">
                           <span>Logout</span>

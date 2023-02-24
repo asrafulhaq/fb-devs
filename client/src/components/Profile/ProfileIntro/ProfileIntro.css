@@ -1,0 +1,167 @@
+.add-featured-banner,
+.add-featured-upload {
+  padding: 20px 15px;
+  text-align: center;
+}
+
+.add-featured-banner img,
+.add-featured-upload img {
+  height: 166px;
+  object-fit: contain;
+  width: 320px;
+}
+
+.add-featured-banner p,
+.add-featured-upload p {
+  font-size: 16px;
+  color: #65676b;
+  margin-bottom: 20px;
+}
+
+.add-featured-banner button,
+.add-featured-upload label {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #3e73b4;
+  background-color: #dde8f3;
+}
+
+.add-featured-upload label {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #3e73b4;
+  background-color: #dde8f3;
+}
+
+.add-featured-banner button:hover,
+.add-featured-upload lavel:hover {
+  background-color: #c2d9f0;
+}
+
+.featured-upload {
+  display: none !important;
+}
+
+.featured-preview {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0px;
+  max-height: 500px;
+  overflow: auto;
+}
+
+.featured-preview .preview-item {
+  width: 150px;
+  height: 250px;
+  background-color: #ccc;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.featured-preview .preview-item .wrap-label {
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.featured-preview .preview-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.round {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999999999999;
+}
+
+.round label {
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 28px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 28px;
+}
+
+.round label:after {
+  border: 2px solid var(--blue-color);
+  border-top: none;
+  border-right: none;
+  content: "";
+  height: 6px;
+  left: 7px;
+  opacity: 0;
+  position: absolute;
+  top: 8px;
+  transform: rotate(-45deg);
+  width: 12px;
+}
+
+.round input[type="checkbox"] {
+  visibility: hidden;
+}
+
+.round input[type="checkbox"]:checked + label {
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.round input[type="checkbox"]:checked + label:after {
+  opacity: 1;
+}
+
+.add-featured-upload {
+  position: relative;
+}
+.featured-buttons {
+  position: absolute;
+  bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 40px;
+}
+
+.featured-buttons button {
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.featured-buttons button.active {
+  background-color: var(--blue-color);
+  color: #fff;
+}
+
+.featured-buttons button:disabled {
+  background-color: #ccc;
+  color: #333;
+}

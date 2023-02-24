@@ -1,0 +1,125 @@
+.profile-photo {
+  position: relative;
+}
+
+.profile-photo-uplaod {
+  position: absolute;
+  bottom: 32px;
+  right: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 25px;
+  line-height: 25px;
+  width: 25px;
+  height: 25px;
+  background-color: #f0f2f5;
+  border-radius: 50%;
+  padding: 5px;
+  box-sizing: content-box;
+}
+
+.profile-upload {
+  min-height: 700px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.profile-upload label {
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #e7f3ff;
+  color: var(--blue-color);
+  font-weight: 400;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-upload label:hover {
+  height: 36px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 16px;
+  background-color: #cbe4fd;
+}
+
+.profile-upload label:active {
+  transform: scale(0.99);
+}
+
+.profile-photo-manage {
+  padding: 20px;
+  min-height: 700px;
+}
+
+.caption-box textarea {
+  width: 100%;
+  outline: none;
+  border: 1px solid #e9e9e9;
+  font-size: 16px;
+  padding: 10px;
+  border-radius: 10px;
+  resize: none;
+  box-sizing: border-box;
+  font-family: SegoeUI;
+  height: 80px;
+}
+
+.caption-box textarea::placeholder {
+  font-family: SegoeUI;
+  font-size: 16px;
+}
+
+.profile-crop-zone {
+  margin: 40px 0px;
+  position: relative;
+  height: 420px;
+  width: 100%;
+}
+
+.reactEasyCrop_Contain {
+  background-color: red;
+}
+
+.photo-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.photo-slider button {
+  border: none;
+  background-color: transparent;
+  font-size: 20px;
+  cursor: pointer;
+}
+.photo-slider input {
+  width: 60%;
+  --webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  background-color: #ced0d4;
+  border-radius: 10px;
+  transform: translate(0px, -1px);
+}
+
+.photo-slider input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+}
+
+.reactEasyCrop_CropArea {
+  width: 300px !important;
+  height: 300px !important;
+}

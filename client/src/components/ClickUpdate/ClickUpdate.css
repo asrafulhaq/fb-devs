@@ -1,0 +1,52 @@
+.click-update {
+  width: 100%;
+}
+
+.click-update textarea {
+  width: 100% !important;
+  height: 70px;
+  border: 1px solid #ced0d4;
+  border-radius: 5px;
+  outline: none;
+  padding: 10px;
+  background-color: #f0f2f5;
+  font-family: inherit;
+  text-align: center;
+  font-size: 16px;
+}
+
+.click-update textarea:hover {
+  background-color: #d5d7da;
+}
+
+.click-update textarea:focus {
+  border-color: #1876f2;
+  background-color: #fff;
+}
+
+.click-update p {
+  text-align: right;
+  color: #555;
+  font-size: 13px;
+}
+
+.click-update .click-update-btn {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+}
+.click-update .click-update-btn .bio-btn {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.click-update .click-update-btn .bio-btn button {
+  padding: 10px 15px;
+  border: none;
+  background-color: #e1e1e9;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}

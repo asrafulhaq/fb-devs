@@ -1,7 +1,6 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Auth from "./pages/Auth/Auth";
 import Profile from "./pages/Profile/Profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,10 +11,25 @@ import Password from "./pages/Password/Password";
 import LoadingBar from "react-top-loading-bar";
 import { useDispatch, useSelector } from "react-redux";
 import { LOADER_END } from "./redux/top-loader/loaderTypes";
-import AuthReject from "./privateRoute/AuthReject";
+import { useEffect } from "react";
+import { tokenUser } from "./redux/auth/authAction";
+import Cookies from "js-cookie";
+import LoginPage from "./pages/Login/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import Friends from "./pages/Friends/Friends";
+import LoggedInRoute from "./privateRoute/LoggedInRoute";
+import LoggedOutRoute from "./privateRoute/LoggedOutRoute";
 function App() {
   const loader = useSelector((state) => state.loader);
   const loaderDispatch = useDispatch();
+  const tokenDispatch = useDispatch();
+  const token = Cookies.get("authToken");
+
+  useEffect(() => {
+    if (token) {
+      tokenDispatch(tokenUser(token));
+    }
+  }, [tokenDispatch, token]);
 
   return (
     <>
@@ -35,16 +49,18 @@ function App() {
 
       <Routes>
         <Route path="/activation/:type" element={<Activation />} />
-        <Route
-          path="/"
-          element={
-            <AuthReject>
-              <Home />
-            </AuthReject>
-          }
-        />
-        <Route path="/login" element={<Auth />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/" element={<Home />} />
+
+        <Route element={<LoggedOutRoute />}>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+
+        <Route element={<LoggedInRoute />}>
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/friends" element={<Friends />} />
+        </Route>
+
         <Route path="/forgot-password" element={<Forgot />} />
         <Route path="/find-account" element={<FindAccount />} />
         <Route path="/change-password" element={<Password />} />

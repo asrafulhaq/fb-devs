@@ -1,0 +1,8 @@
+.fb-card {
+  width: 100%;
+  background-color: #fff;
+  padding: 15px;
+  box-shadow: 0 2px 3px rgb(0 0 0 / 10%), 0 0px 0px rgb(0 0 0 / 10%);
+  border-radius: 6px;
+  margin-bottom: 20px;
+}

@@ -64,6 +64,10 @@ const userSchema = mongoose.Schema(
       type: String,
       default: null,
     },
+    category: {
+      type: String,
+      default: null,
+    },
     work: {
       type: Array,
       default: [],
@@ -110,6 +114,10 @@ const userSchema = mongoose.Schema(
       default: [],
     },
     posts: {
+      type: Array,
+      default: [],
+    },
+    featured: {
       type: Array,
       default: [],
     },

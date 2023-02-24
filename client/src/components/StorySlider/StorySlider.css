@@ -1,0 +1,108 @@
+.story-slider-wraper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform: translate(0px, 30px);
+}
+
+.story-slider-wraper .story-slider {
+  width: 480px;
+  height: 85vh;
+  background-color: #202125;
+  border-radius: 10px;
+}
+
+.story-slider-wraper .story-slider .slider-item {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+.story-slider-wraper .story-slider .slider-item .slider-bars-wraper {
+  display: flex;
+  gap: 4px;
+  transform: translate(0px, 10px);
+  padding: 0px 10px;
+}
+
+.story-slider-wraper .story-slider .slider-item .slider-bars-wraper .bars-item {
+  width: 100%;
+  height: 5px;
+  background-color: #959597;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.story-slider-wraper
+  .story-slider
+  .slider-item
+  .slider-bars-wraper
+  .bars-item
+  .progress {
+  width: 0%;
+  background-color: #fff;
+  height: 5px;
+}
+
+.story-slider-wraper
+  .story-slider
+  .slider-item
+  .slider-bars-wraper
+  .bars-item.active
+  .progress {
+  animation: 5s sliderLoading;
+}
+
+@keyframes sliderLoading {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.story-slider-wraper
+  .story-slider
+  .slider-item
+  .slider-bars-wraper
+  .bars-item.viwed
+  .progress {
+  width: 100%;
+}
+.story-slider-wraper .story-slider .navigation {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.story-slider-wraper .story-slider .navigation .prev {
+  transform: translate(-90px, 0px);
+  transition: 0.3s;
+}
+
+.story-slider-wraper .story-slider .navigation .prev:hover {
+  transform: translate(-100px, 0px);
+}
+
+.story-slider-wraper .story-slider .navigation .next {
+  transform: translate(90px, 0px);
+  transition: 0.3s;
+}
+
+.story-slider-wraper .story-slider .navigation .next:hover {
+  transform: translate(100px, 0px);
+}
+.story-slider-wraper .story-slider .navigation button {
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}

@@ -10,6 +10,11 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  TOKEN_USER_FAILED,
+  TOKEN_USER_REQ,
+  TOKEN_USER_SUCCESS,
+  USER_LOGOUT,
+  USER_PROFILE_UPDATE,
 } from "./actionType";
 
 // user register
@@ -70,7 +75,7 @@ export const activationByOTP =
         .then((res) => {
           createToast("Account activate successfull", "success");
           Cookies.remove("otp");
-          navigate("/login");
+          navigate("/");
         })
         .catch((error) => {
           createToast(error.response.data.message);
@@ -172,3 +177,68 @@ export const userLogin = (data, navigate) => async (dispatch) => {
     console.log(error.message);
   }
 };
+
+// user login
+export const tokenUser = (token, navigate) => async (dispatch) => {
+  try {
+    await axios
+      .get("/api/v1/user/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch({
+          type: TOKEN_USER_SUCCESS,
+          payload: res.data.user,
+        });
+        dispatch({
+          type: LOADER_START,
+        });
+      })
+      .catch((error) => {
+        dispatch({
+          type: TOKEN_USER_FAILED,
+        });
+        dispatch(userLogout());
+        createToast(error.response.data.message);
+      });
+  } catch (error) {
+    console.log(error.message);
+    dispatch(userLogout());
+    dispatch({
+      type: TOKEN_USER_FAILED,
+    });
+  }
+};
+
+// logout
+export const userLogout = (navigate) => (dispatch) => {
+  dispatch({
+    type: LOADER_START,
+  });
+  Cookies.remove("authToken");
+
+  dispatch({
+    type: USER_LOGOUT,
+  });
+};
+
+// user login
+export const profileUpdate =
+  (data, id, setBioShow = null) =>
+  async (dispatch) => {
+    try {
+      await axios
+        .put(`/api/v1/user/profile-update/${id}`, data)
+        .then((res) => {
+          setBioShow && setBioShow(false);
+          dispatch({ type: USER_PROFILE_UPDATE, payload: res.data.user });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
