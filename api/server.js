@@ -18,6 +18,9 @@ app.use(cookieParser());
 // init env variabels
 const PORT = process.env.PORT || 8080;
 
+// static folder
+app.use(express.static("api/public"));
+
 // api routes
 app.use("/api/v1/user", userRoute);
 

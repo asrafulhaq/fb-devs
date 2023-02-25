@@ -4,17 +4,59 @@ import Avatar from "../../../Avatar/Avatar";
 import FbModal from "../../../FbModal/FbModal";
 import Cropper from "react-easy-crop";
 import "./info.css";
+import getCroppedImg, { createImage } from "../../../../utility/croper";
+import axios from "axios";
 
 const Info = () => {
   const { user } = useSelector((state) => state.auth);
   const [profilePhotoModal, setProfilePhotoModal] = useState(false);
+  const [image, setImage] = useState(null);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedImage, setCroppedImage] = useState(null);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
   }, []);
+
+  const showCroppedImage = useCallback(async () => {
+    try {
+      const croppedImage = await getCroppedImg(
+        image,
+        croppedAreaPixels,
+        rotation
+      );
+      setCroppedImage(croppedImage);
+      setImage(croppedImage);
+      setZoom(zoom);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [croppedAreaPixels, rotation]);
+
+  const handleProfilePhotoUplaod = (e) => {
+    const img = URL.createObjectURL(e.target.files[0]);
+    setImage(img);
+    console.log(img);
+  };
+
+  const handleProfilePhotoUpload = async (e) => {
+    const file = await fetch(croppedImage).then((res) => res.blob());
+    // Assuming you have a blob image stored in a variable called `blobImage`
+    const fileImageFinal = new File([file], "imageFileName.png", {
+      type: "image/png",
+    });
+
+    const form_data = new FormData();
+    form_data.append("profile", fileImageFinal);
+
+    console.log(file);
+
+    axios.put(`/api/v1/user/profile-photo-update/${user._id}`, form_data);
+  };
 
   return (
     <div>
@@ -23,46 +65,69 @@ const Info = () => {
           title="Update profile picture"
           closePopup={setProfilePhotoModal}
         >
-          {/* <div className="profile-upload">
-            <label>
-              <input type="file" style={{ display: "none" }} />
-              <i class="bx bx-plus"></i> Uplaod Photo
-            </label>
-          </div> */}
-          <div className="profile-photo-manage">
-            <div className="caption-box">
-              <textarea placeholder="description"></textarea>
+          {!image && (
+            <div className="profile-upload">
+              <label>
+                <input
+                  type="file"
+                  onChange={handleProfilePhotoUplaod}
+                  style={{ display: "none" }}
+                />
+                <i class="bx bx-plus"></i> Uplaod Photo
+              </label>
             </div>
-            <div className="profile-crop-zone">
-              <Cropper
-                image="https://www.pngitem.com/pimgs/m/615-6152413_team-members-gentleman-hd-png-download.png"
-                crop={crop}
-                zoom={zoom}
-                aspect={1 / 1}
-                showGrid={false}
-                onCropChange={setCrop}
-                onCropComplete={onCropComplete}
-                onZoomChange={setZoom}
-                cropShape="round"
-              />
+          )}
+          {image && (
+            <div className="profile-photo-manage">
+              <div className="caption-box">
+                <textarea placeholder="description"></textarea>
+              </div>
+              <div className="profile-crop-zone">
+                <Cropper
+                  image={image}
+                  crop={crop}
+                  zoom={zoom}
+                  aspect={1 / 1}
+                  showGrid={false}
+                  onCropChange={setCrop}
+                  onCropComplete={onCropComplete}
+                  onZoomChange={setZoom}
+                  cropShape="round"
+                />
+              </div>
+              <div className="photo-slider">
+                <button>
+                  <i class="bx bx-minus"></i>
+                </button>
+                <input
+                  type="range"
+                  min={1}
+                  value={zoom}
+                  max={5}
+                  step={0.01}
+                  onChange={(e) => setZoom(e.target.value)}
+                />
+                <button>
+                  <i class="bx bx-plus"></i>
+                </button>
+              </div>
+              <div className="photo-crop-btns">
+                <button onClick={showCroppedImage}>
+                  <i className="bx bx-crop"></i> <span>Crop Photo</span>
+                </button>
+                <button>
+                  <i className="bx bxs-time-five"></i>{" "}
+                  <span>Make Temporary</span>
+                </button>
+              </div>
+              <div className="save-area">
+                <button>Cancel</button>
+                <button className="blue" onClick={handleProfilePhotoUpload}>
+                  Save
+                </button>
+              </div>
             </div>
-            <div className="photo-slider">
-              <button>
-                <i class="bx bx-minus"></i>
-              </button>
-              <input
-                type="range"
-                min={1}
-                value={zoom}
-                max={5}
-                step={0.01}
-                onChange={(e) => setZoom(e.target.value)}
-              />
-              <button>
-                <i class="bx bx-plus"></i>
-              </button>
-            </div>
-          </div>
+          )}
         </FbModal>
       )}
       <div className="fb-profile-details">

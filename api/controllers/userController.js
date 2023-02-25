@@ -9,7 +9,6 @@ import {
 import { sendOTP } from "../utility/sendSMS.js";
 import { createToken, tokenVerify } from "../utility/token.js";
 import { isEmail, isMobile, isNumber, isString } from "../utility/validate.js";
-import multer from "multer";
 
 /**
  * @access public
@@ -840,4 +839,23 @@ export const addFeaturedSlider = async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+};
+
+export const userProfilePhotoUpdate = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(
+      id,
+      {
+        profile_photo: req.file.filename,
+      },
+      { new: true }
+    );
+
+    if (user) {
+      res.json({
+        message: "Profile Photo Updated successful",
+      });
+    }
+  } catch (error) {}
 };

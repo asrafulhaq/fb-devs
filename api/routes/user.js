@@ -15,6 +15,7 @@ import {
   passwordReset,
   userProfileUpdate,
   addFeaturedSlider,
+  userProfilePhotoUpdate,
 } from "../controllers/userController.js";
 // init router
 const router = express.Router();
@@ -30,17 +31,27 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + "_" + file.originalname);
   },
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, "api/public/slider"));
+    if (file.fieldname === "slider") {
+      cb(null, path.join(__dirname, "api/public/slider"));
+    } else if (file.fieldname === "profile") {
+      cb(null, path.join(__dirname, "api/public/profile"));
+    }
   },
 });
 
 const sliderFeatured = multer({ storage: storage }).array("slider", 10);
+const profilePhotoUpload = multer({ storage: storage }).single("profile");
 
 // user auth route
 router.post("/login", login);
 router.post("/register", register);
 router.get("/me", loggedInUser);
 router.put("/profile-update/:id", userProfileUpdate);
+router.put(
+  "/profile-photo-update/:id",
+  profilePhotoUpload,
+  userProfilePhotoUpdate
+);
 router.post("/featured-slider/:id", sliderFeatured, addFeaturedSlider);
 router.get("/activate/:token", activateAccount);
 router.post("/code-activate", activateAccountByCode);

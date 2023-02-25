@@ -8,7 +8,7 @@ const Avatar = () => {
       <img
         src={
           user.profile_photo
-            ? user.profile_photo
+            ? `/profile/${user.profile_photo}`
             : "https://tb-planquadrat.at/wp-content/uploads/2016/09/facebook-avatar.jpg"
         }
         alt=""
