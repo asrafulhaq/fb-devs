@@ -8,7 +8,8 @@ import {
   TOKEN_USER_SUCCESS,
   USER_LOGOUT,
   TOKEN_USER_REQ,
-  USER_PROFILE_UPDATE
+  USER_PROFILE_UPDATE,
+  USER_PROFILE_PHOTO_UPDATE,
 } from "./actionType.js";
 import initialState from "./initialState.js";
 
@@ -63,7 +64,7 @@ const AuthReducer = (state = initialState, { type, payload }) => {
         user: null,
         loginState: false,
       };
-      
+
     case USER_LOGOUT:
       return {
         ...state,
@@ -75,7 +76,16 @@ const AuthReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         user: {
-          ...payload
+          ...payload,
+        },
+      };
+
+    case USER_PROFILE_PHOTO_UPDATE:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          ...payload,
         },
       };
 

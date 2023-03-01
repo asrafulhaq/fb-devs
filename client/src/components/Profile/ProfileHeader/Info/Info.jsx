@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Avatar from "../../../Avatar/Avatar";
 import FbModal from "../../../FbModal/FbModal";
 import Cropper from "react-easy-crop";
@@ -8,6 +8,7 @@ import getCroppedImg, { createImage } from "../../../../utility/croper";
 import axios from "axios";
 
 const Info = () => {
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [profilePhotoModal, setProfilePhotoModal] = useState(false);
   const [image, setImage] = useState(null);
@@ -17,6 +18,8 @@ const Info = () => {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [croppedImage, setCroppedImage] = useState(null);
+
+  console.log(croppedImage);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -31,31 +34,54 @@ const Info = () => {
       );
       setCroppedImage(croppedImage);
       setImage(croppedImage);
-      setZoom(zoom);
     } catch (e) {
       console.error(e);
     }
   }, [croppedAreaPixels, rotation]);
 
-  const handleProfilePhotoUplaod = (e) => {
+  const onClose = useCallback(() => {
+    setCroppedImage(null);
+  }, []);
+
+  const handleProfilePhotoUpload = (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
     setImage(img);
-    console.log(img);
   };
 
-  const handleProfilePhotoUpload = async (e) => {
-    const file = await fetch(croppedImage).then((res) => res.blob());
-    // Assuming you have a blob image stored in a variable called `blobImage`
-    const fileImageFinal = new File([file], "imageFileName.png", {
-      type: "image/png",
-    });
+  const handleProfilePhotoUpdate = async (e) => {
+    try {
+      const croppedImage = await getCroppedImg(
+        image,
+        croppedAreaPixels,
+        rotation
+      );
+      setCroppedImage(croppedImage);
+      setImage(croppedImage);
 
-    const form_data = new FormData();
-    form_data.append("profile", fileImageFinal);
+      const finalImageBlob = await fetch(croppedImage).then((res) =>
+        res.blob()
+      );
 
-    console.log(file);
+      const finalFile = new File([finalImageBlob], "profile_photo.png", {
+        type: "image/png",
+      });
 
-    axios.put(`/api/v1/user/profile-photo-update/${user._id}`, form_data);
+      const form_data = new FormData();
+      form_data.append("profile", finalFile);
+
+      await axios
+        .put(`/api/v1/user//profile-photo-update/${user._id}`, form_data)
+        .then((res) => {
+          setProfilePhotoModal(false);
+          setImage(null);
+          dispatch({
+            type: "USER_PROFILE_PHOTO_UPDATE",
+            payload: { profile_photo: res.data.filename },
+          });
+        });
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
@@ -70,7 +96,7 @@ const Info = () => {
               <label>
                 <input
                   type="file"
-                  onChange={handleProfilePhotoUplaod}
+                  onChange={handleProfilePhotoUpload}
                   style={{ display: "none" }}
                 />
                 <i class="bx bx-plus"></i> Uplaod Photo
@@ -86,13 +112,16 @@ const Info = () => {
                 <Cropper
                   image={image}
                   crop={crop}
+                  rotation={rotation}
                   zoom={zoom}
                   aspect={1 / 1}
+                  cropShape="round"
                   showGrid={false}
+                  cropSize={{ width: 300, height: 300 }}
                   onCropChange={setCrop}
+                  onRotationChange={setRotation}
                   onCropComplete={onCropComplete}
                   onZoomChange={setZoom}
-                  cropShape="round"
                 />
               </div>
               <div className="photo-slider">
@@ -122,7 +151,7 @@ const Info = () => {
               </div>
               <div className="save-area">
                 <button>Cancel</button>
-                <button className="blue" onClick={handleProfilePhotoUpload}>
+                <button className="blue" onClick={handleProfilePhotoUpdate}>
                   Save
                 </button>
               </div>

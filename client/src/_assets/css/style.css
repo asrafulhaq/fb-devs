@@ -154,6 +154,22 @@ ul {
 Components
 */
 
+.shadow-reg {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.fb-btn {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.gray-btn {
+  background-color: #dadbe1;
+}
+
 .divider {
   height: 1px;
   background-color: var(--bg-tertiary);

@@ -855,6 +855,7 @@ export const userProfilePhotoUpdate = async (req, res, next) => {
     if (user) {
       res.json({
         message: "Profile Photo Updated successful",
+        filename: req.file.filename,
       });
     }
   } catch (error) {}

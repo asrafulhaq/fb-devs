@@ -1,0 +1,25 @@
+.friends-container {
+  padding-top: 50px;
+  padding-left: 300px;
+  width: 100%;
+  height: 100vh;
+  background-color: #f0f2f5;
+
+  .friends-container-wraper {
+    padding: 50px;
+
+    .friends-container-section {
+      .container-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .container-section-list {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+    }
+  }
+}
